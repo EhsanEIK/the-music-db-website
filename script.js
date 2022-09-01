@@ -18,15 +18,16 @@ const showArtists = artists => {
             const div = document.createElement('div');
             div.classList.add('col');
             div.innerHTML = `
-        <div class="card h-100">
-            <img src="${artist.strArtistThumb}" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">${artist.strArtist}</h5>
-                <p class="card-text">${artist.strBiographyEN.slice(0, 200)}...</p>
-                <button onclick="loadArtistDetails(${artist.idArtist})" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#artistDetailsModal">More Details</button>
+            <div class="card h-100">
+                <img src="${artist.strArtistThumb}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">${artist.strArtist}</h5>
+                    <p class="card-text">${artist.strBiographyEN.slice(0, 200)}...</p>
+                    <button onclick="loadArtistDetails(${artist.idArtist})" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#artistDetailsModal">More Details</button>
+                    <button onclick="loadAlbums(${artist.idArtist})" class="btn btn-success">Albums</button>
+                </div>
             </div>
-        </div>
-        `;
+            `;
             artistsContainer.appendChild(div);
         });
     }
@@ -60,6 +61,36 @@ const showArtistDetails = artist => {
         `;
     });
 }
+
+// show albums
+const loadAlbums = id => {
+    const url = `https://theaudiodb.com/api/v1/json/2/album.php?i=${id}`;
+    fetch(url)
+        .then(res => res.json())
+        .then(data => showAlbums(data.album));
+}
+const showAlbums = albums => {
+    const albumsContainer = document.getElementById('albums-container');
+    albumsContainer.innerHTML = '';
+
+    // albumsContainer.parentNode.innerHTML = '<h1>All Albums</h1>';
+    albums.forEach(album => {
+        const div = document.createElement('div');
+        div.classList.add('col');
+        div.innerHTML = `
+        <div class="card h-100">
+            <img src="${album.strAlbumThumb}" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">${album.strAlbum}</h5>
+                <p>Genre: ${album.strGenre ? album.strGenre : 'No Genre Given'}</p>
+                <p class="card-text">${album.strDescriptionEN ? album.strDescriptionEN.slice(0, 300) : 'No Details Given'}...</p>
+            </div>
+        </div>
+        `;
+        albumsContainer.appendChild(div);
+    })
+}
+
 
 // common function to get input value for searching
 const processFunction = () => {
