@@ -13,6 +13,18 @@
 <body>
     <main class="container">
         <h1 class="text-center my-3">All Artists</h1>
+        <!-- search options -->
+        <section>
+            <div class="text-center my-4">
+                <input type="text" id="search-input-field" class="form-control d-inline w-25"
+                    placeholder="search by artist">
+                <button id="btn-search" class="btn btn-primary">search</button>
+            </div>
+            <!-- warning message -->
+            <div id="warning-message" class="text-center d-none my-3">
+                <h2 class="text-warning">No Data Found!!!</h2>
+            </div>
+        </section>
         <!-- artists container -->
         <section>
             <div id="artists-container" class="row row-cols-1 row-cols-md-3 g-4"></div>

@@ -1,11 +1,20 @@
-const loadArtists = () => {
-    const url = `https://www.theaudiodb.com/api/v1/json/2/search.php?s=coldplay`;
+const loadArtists = (searchText) => {
+    const url = `https://www.theaudiodb.com/api/v1/json/2/search.php?s=${searchText}`;
     fetch(url)
         .then(res => res.json())
         .then(data => showArtists(data.artists));
 }
 const showArtists = artists => {
     const artistsContainer = document.getElementById('artists-container');
+    artistsContainer.innerHTML = '';
+    const warningMessage = document.getElementById('warning-message');
+    console.log(artists)
+    if (artists === null) {
+        warningMessage.classList.remove('d-none');
+    }
+    else {
+        warningMessage.classList.add('d-none');
+    }
     artists.forEach(artist => {
         const div = document.createElement('div');
         div.classList.add('col');
@@ -22,7 +31,7 @@ const showArtists = artists => {
         artistsContainer.appendChild(div);
     })
 }
-loadArtists();
+loadArtists('coldplay');
 
 // show artist details
 const loadArtistDetails = async id => {
@@ -50,3 +59,10 @@ const showArtistDetails = artist => {
         `;
     })
 }
+
+// search option by artist name
+document.getElementById('btn-search').addEventListener('click', function () {
+    const searchInputField = document.getElementById('search-input-field');
+    const searchValue = searchInputField.value;
+    loadArtists(searchValue);
+})
