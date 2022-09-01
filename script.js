@@ -13,11 +13,11 @@ const showArtists = artists => {
     }
     else {
         warningMessage.classList.add('d-none');
-    }
-    artists.forEach(artist => {
-        const div = document.createElement('div');
-        div.classList.add('col');
-        div.innerHTML = `
+
+        artists.forEach(artist => {
+            const div = document.createElement('div');
+            div.classList.add('col');
+            div.innerHTML = `
         <div class="card h-100">
             <img src="${artist.strArtistThumb}" class="card-img-top" alt="...">
             <div class="card-body">
@@ -27,8 +27,11 @@ const showArtists = artists => {
             </div>
         </div>
         `;
-        artistsContainer.appendChild(div);
-    })
+            artistsContainer.appendChild(div);
+        });
+    }
+    // loader end
+    toggleSpinner(false);
 }
 loadArtists('');
 
@@ -41,7 +44,6 @@ const loadArtistDetails = async id => {
 }
 const showArtistDetails = artist => {
     artist.forEach(details => {
-        console.log(details)
         const artistTitle = document.getElementById('artistDetailsModalLabel');
         artistTitle.innerText = details.strArtist;
 
@@ -56,11 +58,13 @@ const showArtistDetails = artist => {
         <p>${details.strBiographyEN}</p>
 
         `;
-    })
+    });
 }
 
 // common function to get input value for searching
 const processFunction = () => {
+    // loader start
+    toggleSpinner(true);
     const searchInputField = document.getElementById('search-input-field');
     const searchValue = searchInputField.value;
     loadArtists(searchValue);
@@ -68,10 +72,23 @@ const processFunction = () => {
 
 // search option by artist name [input text]
 document.getElementById('search-input-field').addEventListener('keyup', function (event) {
-    processFunction();
+    if (event.key == 'Enter') {
+        processFunction();
+    }
 })
 
 // search option by artist name [button]
 document.getElementById('btn-search').addEventListener('click', function () {
     processFunction();
 })
+
+// loader/spinner
+const toggleSpinner = (isLoading) => {
+    const loader = document.getElementById('loader');
+    if (isLoading) {
+        loader.classList.remove('d-none');
+    }
+    else {
+        loader.classList.add('d-none');
+    }
+}
