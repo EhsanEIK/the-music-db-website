@@ -8,7 +8,6 @@ const showArtists = artists => {
     const artistsContainer = document.getElementById('artists-container');
     artistsContainer.innerHTML = '';
     const warningMessage = document.getElementById('warning-message');
-    console.log(artists)
     if (artists === null) {
         warningMessage.classList.remove('d-none');
     }
@@ -31,7 +30,7 @@ const showArtists = artists => {
         artistsContainer.appendChild(div);
     })
 }
-loadArtists('coldplay');
+loadArtists('');
 
 // show artist details
 const loadArtistDetails = async id => {
@@ -60,9 +59,19 @@ const showArtistDetails = artist => {
     })
 }
 
-// search option by artist name
-document.getElementById('btn-search').addEventListener('click', function () {
+// common function to get input value for searching
+const processFunction = () => {
     const searchInputField = document.getElementById('search-input-field');
     const searchValue = searchInputField.value;
     loadArtists(searchValue);
+}
+
+// search option by artist name [input text]
+document.getElementById('search-input-field').addEventListener('keyup', function (event) {
+    processFunction();
+})
+
+// search option by artist name [button]
+document.getElementById('btn-search').addEventListener('click', function () {
+    processFunction();
 })
