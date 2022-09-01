@@ -7,6 +7,8 @@ const loadArtists = (searchText) => {
 const showArtists = artists => {
     const artistsContainer = document.getElementById('artists-container');
     artistsContainer.innerHTML = '';
+    const albumsContainer = document.getElementById('albums-container');
+    albumsContainer.innerHTML = '';
     const warningMessage = document.getElementById('warning-message');
     if (artists === null) {
         warningMessage.classList.remove('d-none');
@@ -82,7 +84,10 @@ const showAlbums = albums => {
             <img src="${album.strAlbumThumb}" class="card-img-top" alt="...">
             <div class="card-body">
                 <h5 class="card-title">${album.strAlbum}</h5>
+                <p>Band: ${album.strArtist ? album.strArtist : 'Not Given'}</p>
                 <p>Genre: ${album.strGenre ? album.strGenre : 'No Genre Given'}</p>
+                <p>Release Date: ${album.intYearReleased ? album.intYearReleased : 'Not Given'}</p>
+                <p>Release Format: ${album.strReleaseFormat ? album.strReleaseFormat : 'Not Given'}</p>
                 <p class="card-text">${album.strDescriptionEN ? album.strDescriptionEN.slice(0, 300) : 'No Details Given'}...</p>
             </div>
         </div>
